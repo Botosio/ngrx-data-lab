@@ -26,7 +26,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     CoreModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]
