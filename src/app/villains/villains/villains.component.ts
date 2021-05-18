@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Villain } from '../../core';
 import { VillainService } from '../villain.service';
 
@@ -10,8 +10,8 @@ import { VillainService } from '../villain.service';
 })
 export class VillainsComponent implements OnInit {
   selected: Villain;
-  villains: Villain[];
-  loading: boolean;
+  villains$: Observable<Villain[]>;
+  loading$: Observable<boolean>;
 
   constructor(private villainService: VillainService) {}
 
@@ -19,58 +19,33 @@ export class VillainsComponent implements OnInit {
     this.getVillains();
   }
 
-  add(villain: Villain) {
-    this.loading = true;
-    this.villainService
-      .add(villain)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(
-        addedvillain => (this.villains = this.villains.concat(addedvillain))
-      );
-  }
-
   close() {
     this.selected = null;
-  }
-
-  delete(villain: Villain) {
-    this.loading = true;
-    this.close();
-    this.villainService
-      .delete(villain)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(
-        () => (this.villains = this.villains.filter(h => h.id !== villain.id))
-      );
   }
 
   enableAddMode() {
     this.selected = null;
   }
 
-  getVillains() {
-    this.loading = true;
-    this.villainService
-      .getAll()
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(villains => (this.villains = villains));
+  select(villain: Villain) {
+    this.selected = villain;
+  }
+
+  add(villain: Villain) {
+    this.villainService.add(villain);
+  }
+
+  delete(villain: Villain) {
+    this.villainService.delete(villain);
     this.close();
   }
 
-  select(villain: Villain) {
-    this.selected = <any>{};
+  getVillains() {
+    this.villainService.getAll();
+    this.close();
   }
 
   update(villain: Villain) {
-    this.loading = true;
-    this.villainService
-      .update(villain)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(
-        () =>
-          (this.villains = this.villains.map(
-            h => (h.id === villain.id ? villain : h)
-          ))
-      );
+    this.villainService.update(villain);
   }
 }

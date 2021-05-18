@@ -17,5 +17,6 @@
     "editorGroup.border": "#8a56d6",
     "tab.activeBorder": "#8a56d6"
   },
-  "peacock.color": "#6e31c8"
+  "peacock.color": "#6e31c8",
+  "prettier.disableLanguages": ["html"]
 }

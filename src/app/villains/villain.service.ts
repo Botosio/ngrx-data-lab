@@ -1,4 +1,17 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
+import { Villain } from '../core';
+
+@Injectable({ providedIn: 'root' })
+export class VillainService extends EntityCollectionServiceBase<Villain> {
+  constructor(serviceElementsFactory: EntityCollectionServiceElementsFactory) {
+    super('Villain', serviceElementsFactory);
+  }
+}
+
+
+
+/* import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -93,3 +106,4 @@ export class VillainService {
       );
   }
 }
+ */
